@@ -1,5 +1,6 @@
 package me.yoryor.vrdg.server;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
@@ -11,25 +12,30 @@ import java.util.Objects;
 
 import static me.yoryor.vrdg.Util.getAbsolutePath;
 
-public class VServer {
-  private static final Logger LOG = LoggerFactory.getLogger(VServer.class);
+public class VrdgVerticle extends AbstractVerticle{
+  private static final Logger LOG = LoggerFactory.getLogger(VrdgVerticle.class);
 
   private String rootDir;
   private int port;
   private String host;
 
-  public VServer() {
+  public VrdgVerticle() {
   }
 
-  public VServer(String rootDir, int port, String host) {
+  public VrdgVerticle(String rootDir, int port, String host) {
     Objects.requireNonNull(rootDir, "必须指定静态文件夹的路径!");
     this.rootDir = rootDir;
     this.port = port;
     this.host = host;
  }
 
+  @Override
+  public void start() throws Exception {
+    initServer(vertx);
+  }
+
   // 初始化文件服务器
-  public void initServer(Vertx vertx) {
+  private void initServer(Vertx vertx) {
     Router router = Router.router(vertx);
     HttpServerOptions options = new HttpServerOptions();
     options.setHost(this.host).setPort(this.port);
@@ -44,5 +50,4 @@ public class VServer {
       }
     });
   }
-
 }
