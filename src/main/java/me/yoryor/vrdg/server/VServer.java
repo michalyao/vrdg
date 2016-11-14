@@ -1,4 +1,4 @@
-package me.yoryor.vrdg;
+package me.yoryor.vrdg.server;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
@@ -7,17 +7,16 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
-
-import java.nio.file.Paths;
 import java.util.Objects;
+
+import static me.yoryor.vrdg.Util.getAbsolutePath;
 
 public class VServer {
   private static final Logger LOG = LoggerFactory.getLogger(VServer.class);
 
   private String rootDir;
-  private int port = 8080;
-  private String host = "localhost";
-  private HttpServer server;
+  private int port;
+  private String host;
 
   public VServer() {
   }
@@ -34,15 +33,16 @@ public class VServer {
     Router router = Router.router(vertx);
     HttpServerOptions options = new HttpServerOptions();
     options.setHost(this.host).setPort(this.port);
-    server = vertx.createHttpServer(options);
-    router.route("*").handler(StaticHandler.create(this.rootDir));
+    HttpServer server = vertx.createHttpServer(options);
+    router.route("/*").handler(StaticHandler.create(this.rootDir).setCachingEnabled(false));
     server.requestHandler(router::accept).listen(ar -> {
       if (ar.succeeded()) {
-        LOG.info(String.format("静态文件服务器启动成功，监听地址: %s, 监听端口: %d, 静态文件根目录: %s"),
-            host, port, Paths.get(rootDir).toAbsolutePath());
+        LOG.info(String.format("静态文件服务器启动成功，监听地址: %s, 监听端口: %d, 静态文件根目录: %s",
+            host, port, getAbsolutePath(rootDir)));
       } else {
         LOG.warn("静态文件服务器启动失败", ar.cause());
       }
     });
   }
+
 }
