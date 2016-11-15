@@ -14,7 +14,6 @@ import static me.yoryor.vrdg.Util.*;
 public class Startup {
   private static CLI cli = cli();
 
-  // TODO: 2016/11/14 utf-8 solve 
   public static void main(String[] args) {
     CommandLine commandLine = cli.parse(Arrays.asList(args), false);
     if (!commandLine.isValid()) {
@@ -23,12 +22,13 @@ public class Startup {
     }
     String host = commandLine.getOptionValue("host");
     int port = commandLine.getOptionValue("port");
-    String root = commandLine.getOptionValue("dir");
+    String root = commandLine.getOptionValue("root");
+    boolean devModeEnabled = commandLine.getOptionValue("dev") != null;
     if (!fileExists(root)) {
       System.err.printf("输入的静态文件根目录: %s 不存在，请检查后重新启动%n", getAbsolutePath(root));
       System.exit(1);
     }
-    VrdgVerticle vrdgVerticle = new VrdgVerticle(root, port, host);
+    VrdgVerticle vrdgVerticle = new VrdgVerticle(root, port, host, devModeEnabled);
     Vertx.vertx().deployVerticle(vrdgVerticle);
   }
 
@@ -53,9 +53,14 @@ public class Startup {
             .setDescription("Server port.")
             .setDefaultValue("80"))
         .addOption(new Option()
-            .setLongName("dir")
-            .setShortName("d")
+            .setLongName("root")
+            .setShortName("r")
             .setRequired(true)
-            .setDescription("Root directory of the static files."));
+            .setDescription("Root directory of the static files."))
+        .addOption(new Option()
+            .setFlag(true)
+            .setLongName("dev")
+            .setShortName("d")
+            .setDescription("Dev mode"));
   }
 }
