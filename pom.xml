@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
     <groupId>me.yoryor.app</groupId>
     <artifactId>vrdg</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- 编译时的编码 -->
+        <!-- 编译时的编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>cloudnil</name>
+            <email>cloudnil@126.com</email>
+            <organization>CloudNil</organization>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/michalyao/vrdg</url>
+        <connection>scm:git:git@michalyao.com/vrdg.git</connection>
+        <developerConnection>scm:git:git@michalyao.com/vrdg.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
 
     <dependencies>
         <dependency>
@@ -26,6 +53,20 @@
             <version>3.3.3</version>
         </dependency>
     </dependencies>
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>releases</id>-->
+            <!--<name>xxxx internal releases repository</name>-->
+            <!--<url>http://xxx.com/nexus/content/repositories/releases</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+            <!--<id>snapshots</id>-->
+            <!--<name>xxxx internal snapshots repository</name>-->
+            <!--<url>http://xxx.com/nexus/content/repositories/snapshots</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
+
+
     <build>
         <pluginManagement>
             <plugins>
@@ -38,12 +79,34 @@
                         <target>1.8</target>
                     <useIncrementalCompilation>true</useIncrementalCompilation>
                     </configuration>
-
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -63,11 +126,12 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <outputFile>${project.build.directory}/${project.artifactId}-fat.jar</outputFile>
+                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -93,7 +157,7 @@
                             <executable>java</executable>
                             <arguments>
                                 <argument>-cp</argument>
-                                <argument>target/${project.artifactId}-fat.jar</argument>
+                                <argument>target/${project.artifactId}-${project.version}-fat.jar</argument>
                                 <argument>me.yoryor.vrdg.Startup</argument>
                             </arguments>
                         </configuration>
