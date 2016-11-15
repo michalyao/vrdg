@@ -17,7 +17,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
-  - mvn package
+  - mvn package -Dgpg.passphrase=$GPG_KEY
   - docker build -t michalix/vrdg .
 
 after_script:
