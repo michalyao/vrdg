@@ -20,4 +20,5 @@ WORKDIR $VERTICLE_HOME
 
 ENTRYPOINT ["sh", "-c"]
 
-CMD ["java -jar $VERTICLE_FILE"]
+# docker 版默认开放80端口，使用 -p 参数在启动容器时绑定宿主端口
+CMD ["java -jar $VERTICLE_FILE -p 80"]
