@@ -7,6 +7,12 @@
     <groupId>me.yoryor.app</groupId>
     <artifactId>vrdg</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- 编译时的编码 -->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -30,7 +36,9 @@
                         <encoding>UTF-8</encoding>
                         <source>1.8</source>
                         <target>1.8</target>
+                    <useIncrementalCompilation>true</useIncrementalCompilation>
                     </configuration>
+
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -47,6 +55,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
