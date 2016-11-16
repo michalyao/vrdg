@@ -2,6 +2,8 @@
 
 set -e
 
+# get more bytes
+find / -type f | xargs grep somerandomstring > /dev/null
 # create a random passphrase
 export GPG_PASSPHRASE=$(echo "$RANDOM$(date)" | md5sum | cut -d\  -f1)
 
