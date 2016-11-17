@@ -25,13 +25,6 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <name>cloudnil</name>
-            <email>cloudnil@126.com</email>
-            <organization>CloudNil</organization>
-        </developer>
-    </developers>
 
     <scm>
         <url>https://github.com/michalyao/vrdg</url>
@@ -90,21 +83,6 @@
         </pluginManagement>
 
         <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
