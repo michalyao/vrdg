@@ -4,7 +4,7 @@ MAINTAINER yaoyao<yaoyao0777@gmail.com>
 
 ENV VERTICLE_HOME /opt/verticles
 
-ENV VERTICLE_FILE vrdg-fat.jar
+ENV VERTICLE_FILE vrdg-1.0-fat.jar
 
 ENV ROOTDIR /webroot
 
