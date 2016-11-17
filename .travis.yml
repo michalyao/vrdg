@@ -15,7 +15,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - source .travis/gpg.sh
+
 
 install:
   - mvn --settings .travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
@@ -31,7 +31,7 @@ after_script:
 deploy:
   provider: releases
   api_key: $GIT_OAUTH_TOKEN
-  file: target/vrdg-fat.jar
+  file: target/vrdg-1.0-fat.jar
   skip_cleanup: true
   on:
     tags: true
