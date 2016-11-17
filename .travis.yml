@@ -19,6 +19,7 @@ before_install:
 
 
 script:
+  - mvn package
   - docker build -t michalix/vrdg .
 
 after_script:
