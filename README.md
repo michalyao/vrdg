@@ -21,9 +21,8 @@ mvn package
 
 ``` shell
 java -jar vrdg-1.0-fat.jar vrdg -d -p 80 -h localhost - r .
-
-**note:** in windows you should add -Dfile.encoding=UTF-8 to force the JVM instance use UTF-8 other than GBK.
 ```
+**note:** In windows you should add -Dfile.encoding=UTF-8 to force the JVM instance use UTF-8 other than GBK.
 
 ## More
 Docker(todo.)
